@@ -1,0 +1,35 @@
+(defrule sviesoforo-spalvos-kelyje
+	(sviesoforo-spalva ?spalva)
+	(masinos-gamintojas ?masina)
+
+=>
+	(printout t "masinai " ?masina " dega " ?spalva " spalva " crlf)
+)
+
+
+
+(deffacts masinos
+	(masinos-gamintojas 			Toyota)
+	(masinos-gamintojas 			Honda)
+
+	(masinos-vieta 		pirma-gatve 	Toyota)
+	(masinos-vieta 		antra-gatve 	Honda)
+
+	(masinos-bukle 		gera 		Toyota)
+	(masinos-bukle 		sugedusi 	Honda)
+)
+
+
+(deffacts sviesoforai
+	(sviesoforo-pavadinimas 		Pirmas)
+	(sviesoforo-pavadinimas 		Antras)
+
+	(sviesoforo-spalva			Zalia)
+	(sviesoforo-spalva			Raudona)
+	
+	(sviesoforo-vieta	pirma-gatve	Pirmas)
+	(sviesoforo-vieta	antra-gatve	Antras)
+)
+	
+	
+	
