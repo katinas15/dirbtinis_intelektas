@@ -1,9 +1,9 @@
-(defrule sviesoforo-spalvos-kelyje
-	(sviesoforo-spalva ?spalva)
-	(masinos-gamintojas ?masina)
+(defrule sviesoforas-masinai
+	(masinos-vieta ?masinos-vieta ?masinos-pav)
+	?sviesoforas <- (sviesoforo-vieta ?masinos-vieta ?sviesoforo-pavadinimas)
 
 =>
-	(printout t "masinai " ?masina " dega " ?spalva " spalva " crlf)
+	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pavadinimas " sviesoforo" crlf)
 )
 
 
