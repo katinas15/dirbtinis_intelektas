@@ -1,9 +1,10 @@
-(defrule sviesoforas-masinai
+(defrule masinai-sviesoforas
 	(masinos-vieta ?masinos-vieta ?masinos-pav)
-	?sviesoforas <- (sviesoforo-vieta ?masinos-vieta ?sviesoforo-pavadinimas)
+	(sviesoforo-vieta ?masinos-vieta ?sviesoforo-pav)
 
 =>
-	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pavadinimas " sviesoforo" crlf)
+	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pav " sviesoforo" crlf)
+	(assert (masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav))
 )
 
 
