@@ -5,8 +5,17 @@
 =>
 	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pav " sviesoforo" crlf)
 	(assert (masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav))
+	(assert (masinai-spalva ?masinos-pav ?sviesoforo-pav))
+
 )
 
+
+(defrule masinai-spalva
+	(masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav)
+	(sviesoforo-spalva ?spalva ?sviesoforo-pav)
+=>
+	(printout t "masinai " ?masinos-pav " dega " ?spalva " spalva" crlf)
+)
 
 
 (deffacts masinos
@@ -25,8 +34,8 @@
 	(sviesoforo-pavadinimas 		Pirmas)
 	(sviesoforo-pavadinimas 		Antras)
 
-	(sviesoforo-spalva			Zalia)
-	(sviesoforo-spalva			Raudona)
+	(sviesoforo-spalva	Zalia		Pirmas)
+	(sviesoforo-spalva	Raudona		Pirmas)
 	
 	(sviesoforo-vieta	pirma-gatve	Pirmas)
 	(sviesoforo-vieta	antra-gatve	Antras)
