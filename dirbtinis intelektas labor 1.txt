@@ -5,8 +5,6 @@
 =>
 	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pav " sviesoforo" crlf)
 	(assert (masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav))
-	(assert (masinai-spalva ?masinos-pav ?sviesoforo-pav))
-
 )
 
 
