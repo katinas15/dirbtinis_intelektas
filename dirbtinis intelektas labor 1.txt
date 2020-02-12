@@ -1,43 +1,136 @@
 (defrule masinai-sviesoforas
-	(masinos-vieta ?masinos-vieta ?masinos-pav)
-	(sviesoforo-vieta ?masinos-vieta ?sviesoforo-pav)
-
+	(masinos-vieta ?masinos-pav ?masinos-vieta)
+	(sviesoforo-vieta ?sviesoforo-pav ?masinos-vieta)
 =>
-	(printout t "masina " ?masinos-pav " yra " ?masinos-vieta " gatveje ir yra prie " ?sviesoforo-pav " sviesoforo" crlf)
-	(assert (masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav))
+	(printout t "masina " ?masinos-pav " yra prie " ?sviesoforo-pav " sviesoforo" crlf)
+	(assert (masina-sviesoforas ?masinos-pav ?sviesoforo-pav))
 )
 
 
-(defrule masinai-spalva
-	(masina-prie-sviesoforo ?masinos-pav ?sviesoforo-pav)
-	(sviesoforo-spalva ?spalva ?sviesoforo-pav)
+(defrule masinai-spalva    
+    (masina-sviesoforas ?masinos-pav ?sviesoforo-pav)
+	(sviesoforo-spalva ?sviesoforo-pav ?spalva)
 =>
 	(printout t "masinai " ?masinos-pav " dega " ?spalva " spalva" crlf)
+	(assert (masinai-spalva ?masinos-pav ?spalva))
+)
+
+
+(defrule jei-zalia   
+    (masinai-spalva ?masinos-pav Zalia)
+=>
+	(printout t "masina " ?masinos-pav " gali vaziuoti nes Zalia" crlf)
+	(assert (masina-vaziuoti ?masinos-pav Gali))
+    (assert (prideti-prie-list ?masinos-pav))
+)
+
+
+(defrule jei-raudona  
+    (masinai-spalva ?masinos-pav Raudona)
+=>
+	(printout t "masina " ?masinos-pav " NEgali vaziuoti nes Raudona" crlf)
+	(assert (masina-vaziuoti ?masinos-pav Negali))
+)
+
+
+(defrule ar-trukdo-pestysis
+	?vaziuoti-gali <- (masina-vaziuoti ?masinos-pav Gali)
+	(masinos-vieta ?masinos-pav ?gatve)
+	(pestysis-vieta ?vardas ?gatve)
+=>
+	(printout t "masina " ?masinos-pav " negali vaziuoti nes yra " ?vardas " pestysis" crlf)
+    (retract ?vaziuoti-gali)
+    (assert (masina-vaziuoti ?masinos-pav Negali))
+    (assert (istrinti-is-list ?masinos-pav))
+)
+
+
+(defrule jei-raudona-ir-sekcija
+    ?vaziuoti-gali <- (masina-vaziuoti ?masinos-pav Negali)
+    (vaziavimo-kryptis ?masinos-pav ?kryptis)
+    
+    (masina-sviesoforas ?masinos-pav ?sviesoforo-pav)
+	(sviesoforas-sekcija-kryptis-spalva ?sviesoforo-pav ?kryptis Zalia)
+=>
+	(printout t "masina " ?masinos-pav " gali vaziuoti i " ?kryptis ", nes " ?sviesoforo-pav " turi ijungta sekcija" crlf)
+    (retract ?vaziuoti-gali)
+    (assert (masina-vaziuoti ?masinos-pav Gali))
+    (assert (prideti-prie-list ?masinos-pav))
+    
+)
+
+
+(defrule prideti-prie-list
+    ?pridetiList <- (prideti-prie-list ?masinos-pav)
+    ?current-list <- (list $?list)
+=>
+    (retract ?pridetiList ?current-list)
+    (assert (list $?list ?masinos-pav))
+    (assert (change-list yes))
+)
+
+
+(defrule istrinti-is-list
+    ?istrintiList <- (istrinti-is-list ?masinos-pav)
+    ?old-list <- (list $?front ?masinos-pav $?rear)
+=>
+    (retract ?istrintiList ?old-list)
+    (assert (list $?front $?rear))
+    (assert (change-list yes))
+)
+
+
+(defrule print-list
+    ?change-list <- (change-list yes)
+    (list $?list)
+=>
+    (retract ?change-list)
+    (printout t "List is : " $?list crlf)
+)
+
+
+
+(deffacts masinos-kurios-gali-vaziuoti
+    (list )
+)
+
+
+(deffacts pestieji
+	(pestysis-vieta		Pirmas		pirma-gatve)
 )
 
 
 (deffacts masinos
-	(masinos-gamintojas 			Toyota)
-	(masinos-gamintojas 			Honda)
+    (vaziavimo-kryptis    Toyota       tiesiai)
+    (vaziavimo-kryptis    Honda        desine)
+    
+	(masinos-vieta 		Toyota		pirma-gatve)
+	(masinos-vieta 		Honda		antra-gatve)
 
-	(masinos-vieta 		pirma-gatve 	Toyota)
-	(masinos-vieta 		antra-gatve 	Honda)
+	(masinos-bukle 		Toyota		gera)
+	(masinos-bukle 		Honda		sugedusi)
 
-	(masinos-bukle 		gera 		Toyota)
-	(masinos-bukle 		sugedusi 	Honda)
+	(masina-kryptis		Toyota		kaire)
+	(masina-kryptis		Honda		desine)
 )
 
 
 (deffacts sviesoforai
-	(sviesoforo-pavadinimas 		Pirmas)
-	(sviesoforo-pavadinimas 		Antras)
 
-	(sviesoforo-spalva	Zalia		Pirmas)
-	(sviesoforo-spalva	Raudona		Pirmas)
+	(sviesoforo-spalva		Pirmas		Zalia)
+	(sviesoforo-spalva		Antras		Raudona)
 	
-	(sviesoforo-vieta	pirma-gatve	Pirmas)
-	(sviesoforo-vieta	antra-gatve	Antras)
+	(sviesoforo-vieta		Pirmas		pirma-gatve)
+	(sviesoforo-vieta		Antras		antra-gatve)
+
+	(sviesoforas-sekcija-kryptis-spalva	    Antras		desine		Zalia)
 )
 	
-	
+
+
+
+
+
+
+
 	
