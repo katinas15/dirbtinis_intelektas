@@ -107,9 +107,6 @@
 	(masinos-vieta 		Toyota		pirma-gatve)
 	(masinos-vieta 		Honda		antra-gatve)
 
-	(masinos-bukle 		Toyota		gera)
-	(masinos-bukle 		Honda		sugedusi)
-
 	(masina-kryptis		Toyota		kaire)
 	(masina-kryptis		Honda		desine)
 )
@@ -124,13 +121,4 @@
 	(sviesoforo-vieta		Antras		antra-gatve)
 
 	(sviesoforas-sekcija-kryptis-spalva	    Antras		desine		Zalia)
-)
-	
-
-
-
-
-
-
-
-	
+)	
