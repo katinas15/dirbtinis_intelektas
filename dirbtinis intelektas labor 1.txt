@@ -96,7 +96,7 @@
 
 
 (deffacts pestieji
-	(pestysis-vieta		Pirmas		pirma-gatve)
+	(pestysis-vieta			Pirmas		pirma-gatve)
 )
 
 
